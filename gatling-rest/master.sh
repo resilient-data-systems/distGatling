@@ -17,9 +17,14 @@
 
 USER_ARGS="$@"
 
-JAVA_OPTS="-server -XX:+UseThreadPriorities  -XX:ThreadPriorityPolicy=42 -Xms512M -Xmx512M -Xmn100M -XX:+HeapDumpOnOutOfMemoryError -XX:+AggressiveOpts -XX:+OptimizeStringConcat -XX:+UseFastAccessorMethods -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false ${USER_ARGS}"
 
 
-GATLING_CLASSPATH="target/gatling-rest-1.0.2-SNAPSHOT.jar"
+: ${SERVER_PORT:=8080}
+: ${MASTER_PORT:=2551}
+
+JAVA_OPTS="-server -XX:+UseThreadPriorities  -XX:ThreadPriorityPolicy=42 -Xms1024M -Xmx1024M -Xmn100M -XX:+HeapDumpOnOutOfMemoryError -XX:+AggressiveOpts -XX:+OptimizeStringConcat -XX:+UseFastAccessorMethods -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false -Dmaster.port=$MASTER_PORT -Dserver.port=$SERVER_PORT ${USER_ARGS}"
+
+
+GATLING_CLASSPATH="/workdir/gatling-rest-1.0.2-SNAPSHOT.jar"
 # Run Gatling
 java $JAVA_OPTS -jar ${GATLING_CLASSPATH} com.walmart.gatling.Application

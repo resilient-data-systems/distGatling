@@ -29,18 +29,17 @@
     "chartist": "~0.9.8",
     "core-js": "~2.4.1",
     "jquery": "~3.1.1",
-    "reflect-metadata": "~0.1.8",
+    "reflect-metadata": "0.1.8",
     "rxjs": "5.0.1",
-    "systemjs": "~0.19.41",
-    "zone.js": "^0.7.2"
-  },
-  "devDependencies": {
-    "@types/chartist": "~0.9.33",
-    "@types/core-js": "0.9.35",
-    "@types/jquery": "~2.0.34",
-    "@types/node": "~6.0.45",
-    "concurrently": "~3.0.0",
-    "lite-server": "~2.2.2",
-    "typescript": "~2.0.3"
+    "systemjs": "0.19.41",
+    "zone.js": "0.7.2",
+
+    "@types/chartist": "0.9.33",
+
+    "@types/jquery": "2.0.34",
+    "@types/node": "6.0.45",
+    "concurrently": "3.0.0",
+    "lite-server": "2.2.2",
+    "typescript": "*"
   }
 }
