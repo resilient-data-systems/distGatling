@@ -21,29 +21,20 @@ package com.walmart.store.gatling
 import io.gatling.app.Gatling
 import io.gatling.core.config.GatlingPropertiesBuilder
 
-object Engine extends App {
+object Engine {
 
-  val props = new GatlingPropertiesBuilder
-  props.resultsDirectory(System.getProperty("resultsFolder"))
-  props.dataDirectory(System.getProperty("dataFolder"))
-  props.simulationClass(System.getProperty("simulationClass"))
-  props.noReports()
-  props.mute()
-  Gatling.fromMap(props.build)
-  sys.exit()
-
-  /** val usage =
-    """
-      |Usage: java -jar gatling-1.2-SNAPSHOT.jar [similation name]
-    """.stripMargin
-  val props = new GatlingPropertiesBuilder
-  props.dataDirectory("jar")
-  if(args.length == 0) {
-    println(usage)
-  } else {
-    props.simulationClass(args(0))
-    Gatling.fromMap(props.build)
+  def main(args: Array[String]): Unit = {
+    val runStatus = Gatling.fromMap(gatlingProps.build)
+    sys.exit(runStatus)
   }
-  sys.exit()
-    **/
+
+  def gatlingProps: GatlingPropertiesBuilder = {
+    val builder = new GatlingPropertiesBuilder
+    builder.resultsDirectory(System.getProperty("resultsFolder"))
+    builder.dataDirectory(System.getProperty("dataFolder"))
+    builder.simulationClass(System.getProperty("simulationClass"))
+    builder.noReports()
+    builder.mute()
+    builder
+  }
 }

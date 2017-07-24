@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: performance
+Implementation-Version: 0.0.2-51-fc68116a
+Specification-Vendor: com.mlbam.adtech
+Specification-Title: performance
+Implementation-Vendor-Id: com.mlbam.adtech
+Specification-Version: 0.0.2-51-fc68116a
+Implementation-URL: https://github.mlbam.com/adtech/adengine
+Implementation-Vendor: com.mlbam.adtech
+Main-Class: com.mlbam.adtech.performance.EntryPoint
+

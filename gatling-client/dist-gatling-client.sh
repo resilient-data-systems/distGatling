@@ -14,15 +14,56 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+set -x
 
 USER_ARGS="$@"
 
-JAVA_OPTS="-server -XX:+UseThreadPriorities  -XX:ThreadPriorityPolicy=42 -Xms512M -Xmx512M -Xmn100M -XX:+HeapDumpOnOutOfMemoryError -XX:+AggressiveOpts -XX:+OptimizeStringConcat -XX:+UseFastAccessorMethods -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false ${USER_ARGS}"
 
-export SPRING_CONFIG_NAME=config.yml
+#client.parameter: -Dusers=100 -Dramps=1 -DsimulationClass=com.walmart.store.gatling.simulation.BasicSimulation    #the simulation class is required
+##client.dataFeedPath: sample-feed.csv # path to the data feed file
+#client.quiet: false
+#client.parallelism: 1
+#: 
+#client.userName: Abiy
+#client.remoteArtifact: false
+#client.dataFeedFileName: search.csv #data feed file name
+
+# Actor identifier  that is used to join the master/cluster
+# update the host and port value to point to the cluster where the master is running on
+
+
+
+: ${MASTER_IP:=""}
+: ${SERVER_PORT:=10987}
+: ${GATLING_TEST_JAR_NAME:=tests.jar}
+: ${SIMULATION_CLASS:=""}
+: ${SIMULATION_PARAMS:=""}
+: ${CLIENT_PARALLELISM:=1}
+: ${NUM_OF_ACTORS:=1}
+
+GATLING_TEST_JAR="/workdir/gatling-tests/${GATLING_TEST_JAR_NAME}"
+
+JAVA_OPTS="-server -XX:+UseThreadPriorities  -XX:ThreadPriorityPolicy=42 -Xms512M -Xmx512M -Xmn100M -XX:+HeapDumpOnOutOfMemoryError -XX:+AggressiveOpts -XX:+OptimizeStringConcat -XX:+UseFastAccessorMethods -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled "
+JAVA_OPTS+="-Dakka.contact-points=${MASTER_IP}:2551 "
+JAVA_OPTS+="-Dserver.url=http://${MASTER_IP}:8080 "
+JAVA_OPTS+="-Dclient.jarPath=${GATLING_TEST_JAR} "
+JAVA_OPTS+="-Dclient.jarFileName=${GATLING_TEST_JAR_NAME} "
+JAVA_OPTS+="-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false "
+JAVA_OPTS+="-Dclient.parallelism=$CLIENT_PARALLELISM "
+JAVA_OPTS+="-Dclient.numberOfActors=$NUM_OF_ACTORS "
+
+export SPRING_CONFIG_NAME=/workdir/confs/config.yml
 CLIENT_PATH="target/gatling-client-1.0.2-SNAPSHOT.jar"
+
+ls -lah $GATLING_TEST_JAR
+ls -lah /workdir/confs/config.yml
+
+CLIENT_PARAM="-DsimulationClass=${SIMULATION_CLASS} ${SIMULATION_PARAMS}"
+
+#echo "client.parameter: ${SIMULATION_PARAMS} -DsimulationClass=${SIMULATION_CLASS}" >> /workdir/confs/config.yml
+
 # Run Gatling
-java $JAVA_OPTS -jar ${CLIENT_PATH} com.walmart.gatling.client.Client --spring.config.location=config.yml
+java $JAVA_OPTS -Dclient.parameter="${SIMULATION_PARAMS} -DsimulationClass=${SIMULATION_CLASS}" -jar ${CLIENT_PATH} com.walmart.gatling.client.Client --spring.config.location=/workdir/confs/config.yml
 
 
 #Example /bin/bash dist-gatling-client.sh -Dclient.userName=Command -Dclient.parallelism=1

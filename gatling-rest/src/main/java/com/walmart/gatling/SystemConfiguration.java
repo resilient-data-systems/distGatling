@@ -76,8 +76,8 @@ public class SystemConfiguration {
         agentConfig.setJob(jobInfo);
 
         AgentConfig.LogServer logServer = new AgentConfig.LogServer();
-        logServer.setHostName(HostUtils.lookupIp());
-        logServer.setPort(clientPort);
+        logServer.setHostName(env.getProperty("reporting.host", HostUtils.lookupIp()));
+        logServer.setPort(Integer.valueOf(env.getProperty("reporting.port", Integer.toString(clientPort))));
         agentConfig.setLogServer(logServer);
 
         return agentConfig;

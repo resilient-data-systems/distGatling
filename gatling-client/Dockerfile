@@ -11,8 +11,11 @@ RUN curl -fSsL -O https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-c
     rm gatling-charts-highcharts-bundle-2.2.5-bundle.zip
 
 RUN mkdir -p /workdir/target
+RUN mkdir -p /workdir/confs
+RUN mkdir -p /workdir/gatling-tests
 
-COPY target/gatling-rest-1.0.2-SNAPSHOT.jar /workdir/target/gatling-rest-1.0.2-SNAPSHOT.jar
-COPY master.sh /workdir/master.sh
+COPY target/gatling-client-1.0.2-SNAPSHOT.jar /workdir/target/gatling-client-1.0.2-SNAPSHOT.jar
+COPY dist-gatling-client.sh /workdir/dist-gatling-client.sh
+COPY confs/config.yml /workdir/confs/
 
-ENTRYPOINT ["/bin/bash", "/workdir/master.sh"]
+ENTRYPOINT ["/bin/bash", "/workdir/dist-gatling-client.sh"]

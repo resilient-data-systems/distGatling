@@ -14,6 +14,7 @@ multipart.max-file-size: 100MB
 multipart.max-request-size: 100MB
 spring.http.multipart.max-file-size: 100Mb
 spring.http.multipart.max-request-size: 100Mb
+
 #Actor configurations for the actors used during report generation
 actor:
   numberOfActors: 1

@@ -24,6 +24,6 @@ USER_ARGS="$@"
 JAVA_OPTS="-server -XX:+UseThreadPriorities  -XX:ThreadPriorityPolicy=42 -Xms1024M -Xmx1024M -Xmn100M -XX:+HeapDumpOnOutOfMemoryError -XX:+AggressiveOpts -XX:+OptimizeStringConcat -XX:+UseFastAccessorMethods -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false -Dakka.contact-points=$CONTACT_POINTS -Dactor.port=0 -Dserver.port=$SERVER_PORT -Dactor.numberOfActors=$NUM_ACTORS ${USER_ARGS}"
 
 
-GATLING_CLASSPATH="/workdir/gatling-agent-1.0.2-SNAPSHOT.jar"
+GATLING_CLASSPATH="./target/gatling-agent-1.0.2-SNAPSHOT.jar"
 # Run Gatling
 java $JAVA_OPTS -jar ${GATLING_CLASSPATH} com.walmart.gatling.Application
